@@ -1,0 +1,92 @@
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+model User {
+  id               String          @id @default(uuid()) @db.Uuid()
+  name             String
+  email            String
+  netId            String
+  createdAt        DateTime        @default(now()) @db.Timestamptz(6)
+  modifiedAt       DateTime?       @db.Timestamptz(6)
+  adminClubs       ClubAdmin[]
+  followedClubs    ClubFollowed[]
+  interestedEvents InterestEvent[]
+}
+
+model Club {
+  id           String         @id @default(uuid()) @db.Uuid()
+  description  String
+  email        String
+  location     String
+  college      String
+  website      String
+  clubType     dm_ClubType?   @relation(fields: [clubTypeId], references: [id])
+  clubTypeId   String?        @db.Uuid()
+  logo         Image?         @relation(fields: [imageId], references: [id])
+  imageId      String?        @unique @db.Uuid()
+  createdAt    DateTime       @default(now()) @db.Timestamptz(6)
+  modifiedAt   DateTime?      @db.Timestamptz(6)
+  deletedAt    DateTime?      @db.Timestamptz(6)
+  meetTime     DateTime
+  event        Event[]
+  admins       ClubAdmin[]
+  followedList ClubFollowed[]
+}
+
+model dm_ClubType {
+  id    String @id @default(uuid()) @db.Uuid()
+  name  String
+  clubs Club[]
+}
+
+model Image {
+  id         String    @id @default(uuid()) @db.Uuid()
+  imageUrl   String
+  club       Club?
+  clubId     String?   @db.Uuid
+  createdAt  DateTime  @default(now()) @db.Timestamptz(6)
+  modifiedAt DateTime? @db.Timestamptz(6)
+  deletedAt  DateTime? @db.Timestamptz(6)
+}
+
+model Event {
+  id              String          @id @default(uuid()) @db.Uuid()
+  time            DateTime
+  name            String
+  description     String
+  club            Club?           @relation(fields: [clubId], references: [id])
+  clubId          String?         @db.Uuid()
+  createdAt       DateTime        @default(now()) @db.Timestamptz(6)
+  modifiedAt      DateTime?       @db.Timestamptz(6)
+  interestedUsers InterestEvent[]
+}
+
+model ClubAdmin {
+  id     String @id @default(uuid()) @db.Uuid()
+  user   User   @relation(fields: [userId], references: [id])
+  userId String @db.Uuid()
+  club   Club   @relation(fields: [clubId], references: [id])
+  clubId String @db.Uuid()
+}
+
+model ClubFollowed {
+  id     String @id @default(uuid()) @db.Uuid()
+  user   User   @relation(fields: [userId], references: [id])
+  userId String @db.Uuid()
+  club   Club   @relation(fields: [clubId], references: [id])
+  clubId String @db.Uuid()
+}
+
+model InterestEvent {
+  id      String @id @default(uuid()) @db.Uuid()
+  user    User   @relation(fields: [userId], references: [id])
+  userId  String @db.Uuid()
+  event   Event  @relation(fields: [eventId], references: [id])
+  eventId String @db.Uuid()
+}
