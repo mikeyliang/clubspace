@@ -1,3 +1,4 @@
+'use client';
 import React,{MouseEvent,MouseEventHandler} from "react"
 import {Button} from "@mantine/core"
 type naiveButtonPropTypes = {
