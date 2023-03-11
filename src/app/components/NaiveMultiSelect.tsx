@@ -1,5 +1,4 @@
 import React,{forwardRef} from "react";
-import { IconX } from "@tabler/icons-react";
 import {
   MultiSelect,
   Box,
@@ -19,39 +18,33 @@ type naiveMultiSelectPropTypes = {
   labelText: string;
   placeholderText: string;
   nothingFoundText: string;
-//  data: Array<multiSelectDataProps>;
+  data: Array<multiSelectDataProps>;
 
 };
 
-const data = [
-    {
-        label: 'Engineering',
-        value: '#713212'
-    },
-    {
-        label: 'Sports',
-        value: '#129582'
-    }
-]
-//<button onClick={onRemove}><IconX /></button>
 function multiSelectValue({
-    value,
+    bgColor,
+    textColor,
     label,
     onRemove,
     classNames,
     ...others
-  }: MultiSelectValueProps & { value: string }) {
+  }: MultiSelectValueProps & { bgColor:string,textColor:string}) {
+    const divStyle = {
+      backgroundColor: bgColor,
+      color: textColor,
+    }
     return(
         <>
         <div {...others}>
-            <div className = "flex items-center justify-between rounded-md p-1" style={{"backgroundColor": `${value}`}}>
+            <div className = "flex items-center justify-between rounded-md p-1.5" style={divStyle}>
                 <span>
                     {label}
                 </span>
                 <CloseButton 
                 onMouseDown={onRemove}
                 variant="transparent"
-                color="white"
+                color= "gray.0"
                 size={22}
                 iconSize={14}
                 tabIndex={-1}
@@ -62,12 +55,22 @@ function multiSelectValue({
         </>
     )
   }
-
+interface itemProps{
+  label: string;
+  bgColor: string;
+  textColor: string;
+}
 // eslint-disable-next-line react/display-name
-const multiSelectItem = forwardRef<HTMLDivElement,SelectItemProps>(({label,value,...others}, ref) => {
+const multiSelectItem = forwardRef<HTMLDivElement,itemProps>(({label,bgColor,textColor,...others}, ref) => {
+  const divStyle = {
+    backgroundColor: bgColor,
+    color: textColor,
+  }
     return(
-        <div {...others} ref={ref}>
+        <div {...others} ref={ref} >
+        <div className = "flex items-center justify-between rounded-md p-1.5 w-min" style={divStyle}>
             <span>{label}</span>
+        </div>
         </div>
     )
 });
@@ -79,12 +82,13 @@ export default function NaiveMultiSelect(naiveMultiSelectProps: naiveMultiSelect
   <MultiSelect
     placeholder={naiveMultiSelectProps.placeholderText}
     nothingFound={naiveMultiSelectProps.nothingFoundText}
-    data={data}
+    data={naiveMultiSelectProps.data}
     valueComponent={multiSelectValue}
     itemComponent = {multiSelectItem}
     searchable
     label = {naiveMultiSelectProps.labelText}
     limit = {20}
+    dropdownPosition = "bottom"
     />
   </>
   );
