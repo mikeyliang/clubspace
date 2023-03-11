@@ -2,14 +2,14 @@
   "name": "clubspace",
   "private": true,
   "version": "0.0.0",
-  "type": "module",
+  "main": "index.ts",
   "scripts": {
-    "dev": "vite",
+    "dev": "vite && ts-node --esm src/api/index.ts",
     "build": "tsc && vite build",
     "preview": "vite preview",
     "db:generate": "prisma generate --schema=src/api/prisma/schema.prisma",
     "db:migrate": "prisma migrate dev --schema=src/api/prisma/schema.prisma",
-    "db:seed": "vite src/api/prisma/seed.mjs"
+    "db:seed": "node src/api/prisma/seed.mjs"
   },
   "dependencies": {
     "@prisma/client": "^4.11.0",
@@ -20,10 +20,13 @@
     "react-dom": "^18.2.0"
   },
   "devDependencies": {
+    "@faker-js/faker": "^7.6.0",
+    "@types/node": "^18.15.0",
     "@types/react": "^18.0.27",
     "@types/react-dom": "^18.0.10",
     "@vitejs/plugin-react-swc": "^3.0.0",
-    "typescript": "^4.9.3",
+    "ts-node": "^10.9.1",
+    "typescript": "^4.0.0",
     "vite": "^4.1.0"
   }
 }

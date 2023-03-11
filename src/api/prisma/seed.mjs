@@ -29,7 +29,6 @@ async function main() {
         netId: netId,
       },
     });
-    console.log(user);
   }
 }
 
