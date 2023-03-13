@@ -4,7 +4,7 @@ import userController from "../controllers/user.controller";
 
 /* GET Request */
 router.get("/user", userController.get);
-router.get("/user/:id", userController.get);
+router.get("/user/:id", userController.getUserById);
 
 /* POST Request */
 router.post("/user", userController.create);
