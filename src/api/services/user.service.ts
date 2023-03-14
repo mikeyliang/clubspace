@@ -4,7 +4,7 @@ import { UserType, userGetWhereType, userCreateDataType, userUpdateWhereType, us
 
 async function getUsers() {
   try {
-    const users = await prisma.$queryRaw`SELECT * FROM "User"`;
+    const users = await prisma.$queryRaw<UserType>`SELECT * FROM "User"`;
     return users;
   } catch (err: any) {
     throw Error(err.message);

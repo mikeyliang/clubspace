@@ -3,7 +3,7 @@ import { ClubType, clubGetWhereType, clubUpdateWhereType, clubCreateDataType, cl
 
 async function getClubs() {
   try {
-    const clubs = await prisma.$queryRaw`SELECT * FROM "Club"`;
+    const clubs = await prisma.$queryRaw<ClubType>`SELECT * FROM "Club"`;
     return clubs;
   } catch (err: any) {
     throw Error(err.message);
@@ -23,8 +23,8 @@ async function getClubById(where: clubGetWhereType) {
 async function createClub(data: clubCreateDataType): Promise<ClubType> {
   try {
     const club = await prisma.$queryRaw<ClubType>`
-      INSERT INTO "Club"("id", "description", "email", "location", "college", "website", "modifiedAt")
-      VALUES (gen_random_uuid (), ${data.description}, ${data.email}, ${data.location}, ${data.college}, ${data.website}, null)
+      INSERT INTO "Club"("id", "name", "description", "email", "location", "college", "website", "modifiedAt", "deletedAt", "meetTime", "clubTypeId", "imageId")
+      VALUES (gen_random_uuid (), ${data.name}, ${data.description}, ${data.email}, ${data.location}, ${data.college}, ${data.website}, null, null, null, null, null)
       RETURNING *`;
     return club;
   } catch (err: any) {
@@ -36,7 +36,7 @@ async function updateClub(where: clubUpdateWhereType, data: clubUpdateDataType):
   try {
     const club = await prisma.$queryRaw<ClubType>`
     UPDATE "Club" 
-    SET "description" = ${data.description}, "email" = ${data.email}, "location" = ${data.location}, "college" = ${data.college}, "website" = ${data.website}
+    SET "name" = ${data.name}, "description" = ${data.description}, "email" = ${data.email}, "location" = ${data.location}, "college" = ${data.college}, "website" = ${data.website}
     WHERE id = ${where.id}::uuid
     RETURNING *
   `;

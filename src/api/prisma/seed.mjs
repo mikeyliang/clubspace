@@ -15,6 +15,7 @@ async function main() {
   await prisma.user.deleteMany();
 
   // create new data
+  // users
   for (let i = 0; i < 100; i++) {
     const netId =
       faker.random.alpha({
@@ -29,6 +30,43 @@ async function main() {
         netId: netId,
       },
     });
+  }
+
+  // enum for colleges
+  const colleges = {
+    agricultureAndLifeSciences: "College of Agriculture and Life Sciences",
+    architectureArtAndPlanning: "College of Architecture, Art and Planning",
+    business: "Cornell SC Johnson College of Business",
+    computingAndInformationScience: "Cornell College of Computing and Information Science",
+    humanEcology: "College of Human Ecology",
+    publicPolicy: "College of Public Policy",
+    ILR: "School of Industrial and Labor Relations",
+    artsAndSciences: 'College of Arts and Sciences',
+    engineering: 'College of Engineering',
+  };
+  function getRandomCollege() {
+    const values = Object.values(colleges);
+    const randomIndex = Math.floor(Math.random() * values.length);
+    return values[randomIndex];
+  }
+
+
+  // clubs
+  for (let i = 0; i < 100; i++) {
+    const clubName = faker.name.jobType()
+    const club = await prisma.club.create({
+      data: {
+        name: clubName + " Club",
+        description: faker.lorem.sentence(),
+        email: faker.internet.email(),
+        location: faker.address.street(),
+        college: getRandomCollege(),
+        website: clubName + ".com",
+        meetTime: faker.datatype.datetime(),
+      }
+    })
+    
+    console.log(club)
   }
 }
 

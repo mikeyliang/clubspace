@@ -4,7 +4,7 @@ import clubController from "../controllers/club.controller";
 
 /* GET Request */
 router.get("/club", clubController.get);
-router.get("/user/:id", clubController.getClubById);
+router.get("/club/:id", clubController.getClubById);
 
 /* POST Request */
 router.post("/club", clubController.create);

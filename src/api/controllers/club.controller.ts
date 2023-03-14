@@ -35,7 +35,10 @@ async function getClubById(req: Request, res: Response) {
 
 async function create(req: Request, res: Response) {
   try {
-    const club = await clubService.createClub(req.body);
+    const data = { name: req.body.name, description: req.body.description, 
+      email: req.body.email, location: req.body.location, college: 
+      req.body.college, website: req.body.website } as clubCreateDataType
+    const club = await clubService.createClub(data);
     return res.status(201).json({
       status: 201,
       data: club,
@@ -50,7 +53,7 @@ async function create(req: Request, res: Response) {
 async function update(req: Request, res: Response) {
   try {
     const where = { id: req.params.id } as clubUpdateWhereType;
-    const data = { description: req.body.description, email: req.body.email, location: req.body.location, college: req.body.college, website: req.body.website } as clubUpdateDataType
+    const data = { name: req.body.name, description: req.body.description, email: req.body.email, location: req.body.location, college: req.body.college, website: req.body.website } as clubUpdateDataType
     const club = await clubService.updateClub(where, data);
     return res.status(200).json({
       status: 200,

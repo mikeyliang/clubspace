@@ -16,8 +16,9 @@ app.get("/", (req: Request, res: Response) => {
 });
 
 import userRouter from "./routes/user.route";
-
+import clubRouter from "./routes/club.route"
 app.use(userRouter);
+app.use(clubRouter);
 
 /* Error handler middleware */
 app.use((err: any, req: Request, res: Response, next: NextFunction) => {

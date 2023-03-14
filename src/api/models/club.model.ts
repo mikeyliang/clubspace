@@ -8,6 +8,7 @@ export type clubGetWhereType = {
 }
 
 export type clubCreateDataType = {
+  name: string | undefined;
   description: string | undefined;
   email: string | undefined;
   location: string | undefined;
@@ -20,6 +21,7 @@ export type clubUpdateWhereType = {
 }
 
 export type clubUpdateDataType = {
+  name: string | undefined;
   description: string | undefined;
   email: string | undefined;
   location: string | undefined;

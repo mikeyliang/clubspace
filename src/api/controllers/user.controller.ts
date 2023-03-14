@@ -30,7 +30,8 @@ async function getUserById(req: Request, res: Response) {
 
 async function create(req: Request, res: Response) {
   try {
-    const user = await userService.createUser(req.body);
+    const data = { firstName: req.body.firstName, lastName: req.body.lastName, email: req.body.email, netId: req.body.netId } as userCreateDataType
+    const user = await userService.createUser(data);
     return res.status(201).json({
       status: 201,
       data: user,
