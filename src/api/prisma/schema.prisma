@@ -25,9 +25,10 @@ model User {
 
 model Club {
   id           String         @id @default(uuid()) @db.Uuid()
+  name         String
   description  String
   email        String
-  location     String
+  location     String?
   college      String
   website      String
   clubType     dm_ClubType?   @relation(fields: [clubTypeId], references: [id])
@@ -37,7 +38,7 @@ model Club {
   createdAt    DateTime       @default(now()) @db.Timestamptz(6)
   modifiedAt   DateTime?      @db.Timestamptz(6)
   deletedAt    DateTime?      @db.Timestamptz(6)
-  meetTime     DateTime
+  meetTime     DateTime?
   event        Event[]
   admins       ClubAdmin[]
   followedList ClubFollowed[]
